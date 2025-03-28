@@ -9,7 +9,8 @@ import logging
 HTTPres = HTTPResponse()
 HTTPreq = HTTPRequest()
 filename = 'spec.toml'
-logging.basicConfig(level=logging.INFO, filename="py_log.log",filemode="w")
+logging.basicConfig(level=logging.INFO, filename="py_log.log",filemode="a",
+                    format="%(asctime)s %(levelname)s\n%(message)s\n")
 
 class Request:
 
@@ -33,7 +34,6 @@ class Request:
             content_length = f"Content-Length: {str(len(body))}\r\n"
             auth = f"Authorization: Basic {credentials}\r\n\r\n"
             self.request += "".join([host, content_type, content_length, auth, body])
-            
             return 1
         return 0
 
@@ -48,7 +48,8 @@ class Request:
                 self.point = server['point']
             return 1
         except FileNotFoundError:
-            print("Error: File not found")
+            # print("Error: File not found")
+            logging.error(f"Error: File {filename} not found")
             return 0
 
     def post_request(self) -> None:
@@ -61,6 +62,7 @@ class Request:
 
                 print(HTTPres.code)
                 print(HTTPres.body)
+                logging.info(HTTPres.code + "\n" + json.dumps(HTTPres.body))
 
 
 a = Request("admin", "admin", "message")
