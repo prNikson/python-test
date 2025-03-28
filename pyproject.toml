@@ -1,0 +1,10 @@
+[project]
+name = "swoyo"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "logging>=0.4.9.6",
+    "toml>=0.10.2",
+]

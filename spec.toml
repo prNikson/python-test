@@ -1,0 +1,14 @@
+title = "Spec file"
+
+[server]
+
+address = "127.0.0.1"
+port = 4010
+
+point = "send_sms"
+
+[user]
+
+login = "admin"
+
+password = "admin"
