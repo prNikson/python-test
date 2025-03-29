@@ -19,13 +19,13 @@ class Request:
         self.recip = recip
         self.message = mes
     
-    async def prepare_request(self) -> int:
+    async def _prepare_request(self) -> int:
         body = json.dumps({
             "sender": self.send,
             "recipient": self.recip,
             "message": self.message
         })
-        if await self.get_info_from_toml():
+        if await self._get_info_from_toml():
 
             credentials = base64.b64encode(f"{self.login}:{self.passwd}".encode()).decode()
             self.request = f"POST /{self.point} HTTP/1.1\r\n"
@@ -37,7 +37,7 @@ class Request:
             return 1
         return 0
 
-    async def get_info_from_toml(self) -> int:
+    async def _get_info_from_toml(self) -> int:
         try:
             with open(filename, "r") as file:
                 data = toml.load(file)
@@ -48,20 +48,19 @@ class Request:
                 self.point = server['point']
             return 1
         except FileNotFoundError:
-            # print("Error: File not found")
             logging.error(f"Error: File {filename} not found")
             return 0
 
     async def post_request(self) -> None:
-        if await self.prepare_request():
+        if await self._prepare_request():
             reader, writer = await asyncio.open_connection(self.address, self.port)
-            writer.write(HTTPRequest.to_bytes(self.request))
+            writer.write(self.request.encode())
             await writer.drain()
             response = await reader.read(4096)
-            HTTPResponse.from_bytes(response)
-            print(HTTPResponse.code)
-            print(HTTPResponse.body)
+            # print(response)
+            # HTTPResponse.from_bytes(response)
             writer.close()
-            logging.info(f"Host:{self.address}:{self.port}/{self.point}\nsend:{self.send}\n" +\
-                f"recipient:{self.recip}\nmessage:{self.message}\n" +
-                HTTPResponse.code + "\n" + json.dumps(HTTPResponse.body))
+
+            # logging.info(f"Host:{self.address}:{self.port}/{self.point}\nsend:{self.send}\n" +\
+            #     f"recipient:{self.recip}\nmessage:{self.message}\n" +
+            #     HTTPResponse.code + "\n" + json.dumps(HTTPResponse.body))

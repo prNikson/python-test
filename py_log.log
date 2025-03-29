@@ -62,3 +62,67 @@ message:go home
 200 OK
 {"status": "success", "message_id": "123456"}
 
+2025-03-29 14:03:48,385 INFO
+Host:127.0.0.1:4010/send_sms
+send:1
+recipient:1
+message:1
+200 OK
+{"status": "success", "message_id": "123456"}
+
+2025-03-29 14:03:53,274 INFO
+Host:127.0.0.1:4010/send_sms
+send:1
+recipient:1
+message:1
+200 OK
+{"status": "success", "message_id": "123456"}
+
+2025-03-29 14:04:21,756 INFO
+Host:127.0.0.1:4010/send_sms
+send:1
+recipient:1
+message:1
+200 OK
+{"status": "success", "message_id": "123456"}
+
+2025-03-29 14:04:43,706 INFO
+Host:127.0.0.1:4010/send_sms
+send:1
+recipient:1
+message:1
+200 OK
+{"status": "success", "message_id": "123456"}
+
+2025-03-29 14:05:49,874 INFO
+Host:127.0.0.1:4010/send_sms
+send:1
+recipient:1
+message:1
+200 OK
+{"status": "success", "message_id": "123456"}
+
+2025-03-29 14:07:54,780 INFO
+Host:127.0.0.1:4010/send_sms
+send:1
+recipient:1
+message:1
+200 OK
+{"status": "success", "message_id": "123456"}
+
+2025-03-29 14:09:34,301 INFO
+Host:127.0.0.1:4010/send_sms
+send:1
+recipient:1
+message:1
+200 OK
+{"status": "success", "message_id": "123456"}
+
+2025-03-29 14:09:45,069 INFO
+Host:127.0.0.1:4010/send_sms
+send:1
+recipient:1
+message:1
+200 OK
+{"status": "success", "message_id": "123456"}
+
