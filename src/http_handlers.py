@@ -39,5 +39,5 @@ class HTTPResponse(HTTP):
     @classmethod
     def from_bytes(cls, body: bytes) -> None:
         response = (body.decode()).split('\r\n')
-        code = re.split(r'HTTP/1.1 ', response[0])[-1]
-        body = json.loads(response[-1])
+        cls.code = re.split(r'HTTP/1.1 ', response[0])[-1]
+        cls.body = json.loads(response[-1])

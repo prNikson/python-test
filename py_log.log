@@ -2,3 +2,63 @@
 200 OK
 {"status": "success", "message_id": "123456"}
 
+2025-03-29 11:28:02,322 INFO
+
+{}
+
+2025-03-29 11:28:12,220 INFO
+
+""
+
+2025-03-29 11:32:40,610 INFO
+200 OK
+{"status": "success", "message_id": "123456"}
+
+2025-03-29 11:35:55,137 INFO
+200 OK
+{"status": "success", "message_id": "123456"}
+
+2025-03-29 11:37:23,208 INFO
+200 OK
+{"status": "success", "message_id": "123456"}
+
+2025-03-29 11:37:42,801 INFO
+200 OK
+{"status": "success", "message_id": "123456"}
+
+2025-03-29 11:41:56,543 INFO
+Host:127.0.0.1:4010/send_sms
+send:[1, 2]
+                recipient:{1:1}
+message:fgd200 OK
+{"status": "success", "message_id": "123456"}
+
+2025-03-29 11:42:09,343 INFO
+Host:127.0.0.1:4010/send_sms
+send:[1, 2]                recipient:{1:1}
+message:fgd200 OK
+{"status": "success", "message_id": "123456"}
+
+2025-03-29 11:42:23,740 INFO
+Host:127.0.0.1:4010/send_sms
+send:[1, 2]
+recipient:{1:1}
+message:fgd200 OK
+{"status": "success", "message_id": "123456"}
+
+2025-03-29 11:43:00,082 INFO
+Host:127.0.0.1:4010/send_sms
+send:[1, 2]
+recipient:{self.recip}
+message:{self.message}
+200 OK
+{"status": "success", "message_id": "123456"}
+
+2025-03-29 11:43:25,386 INFO
+Host:127.0.0.1:4010/send_sms
+send:admin
+recipient:subadmin
+message:go home
+200 OK
+{"status": "success", "message_id": "123456"}
+
