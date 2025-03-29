@@ -5,34 +5,39 @@ import re
 
 class HTTP(ABC):
 
+    @classmethod
     @abstractmethod
-    def to_bytes(self, body):
+    def to_bytes(cls, body):
         pass
     
+    @classmethod
     @abstractmethod
-    def from_bytes(self, body):
+    def from_bytes(cls, body):
         pass
 
 
 class HTTPRequest(HTTP):
 
-    def to_bytes(self, body: str) -> bytes:
-        return body.encode('utf-8')        
+    @classmethod
+    def to_bytes(cls, body: str) -> bytes:
+        return body.encode('utf-8')    
     
-    def from_bytes(self, body: bytes) -> None:
+    @classmethod
+    def from_bytes(cls, body: bytes) -> None:
         pass
 
 
 class HTTPResponse(HTTP):
     
-    def __init__(self):
-        self.code: str
-        self.body: dict
+    code: str = ""
+    body: dict = ""
 
-    def to_bytes(self) -> None:
+    @classmethod
+    def to_bytes(cls) -> None:
         pass
-    
-    def from_bytes(self, body: bytes) -> None:
+
+    @classmethod
+    def from_bytes(cls, body: bytes) -> None:
         response = (body.decode()).split('\r\n')
-        self.code = re.split(r'HTTP/1.1 ', response[0])[-1]
-        self.body = json.loads(response[-1])
+        code = re.split(r'HTTP/1.1 ', response[0])[-1]
+        body = json.loads(response[-1])
