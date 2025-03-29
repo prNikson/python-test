@@ -7,3 +7,12 @@ INFO
 200 OK
 {"status": "success", "message_id": "123456"}
 
+2025-03-29 11:50:43,968
+INFO
+Host:127.0.0.1:4010/send_sms
+send:admin
+recipient:subadmin
+message:go home
+200 OK
+{"status": "success", "message_id": "123456"}
+

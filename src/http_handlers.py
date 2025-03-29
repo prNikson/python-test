@@ -20,8 +20,8 @@ class HTTPRequest(HTTP):
 
     @classmethod
     def to_bytes(cls, body: str) -> bytes:
-        return body.encode('utf-8')    
-    
+        return body.encode('utf-8')
+      
     @classmethod
     def from_bytes(cls, body: bytes) -> None:
         pass
@@ -30,14 +30,14 @@ class HTTPRequest(HTTP):
 class HTTPResponse(HTTP):
     
     code: str = ""
-    body: dict = ""
+    body: str = ""
 
     @classmethod
     def to_bytes(cls) -> None:
         pass
-
+    
     @classmethod
     def from_bytes(cls, body: bytes) -> None:
         response = (body.decode()).split('\r\n')
-        code = re.split(r'HTTP/1.1 ', response[0])[-1]
-        body = json.loads(response[-1])
+        cls.code = re.split(r'HTTP/1.1 ', response[0])[-1]
+        cls.body = json.loads(response[-1])

@@ -6,8 +6,6 @@ from http_handlers import *
 import logging
 
 
-HTTPres = HTTPResponse()
-HTTPreq = HTTPRequest()
 filename = 'spec.toml'
 logging.basicConfig(level=logging.INFO, filename="py_log.log",filemode="a",
                     format="%(asctime)s\n%(levelname)s\n%(message)s\n")
@@ -48,7 +46,6 @@ class Request:
                 self.point = server['point']
             return 1
         except FileNotFoundError:
-            # print("Error: File not found")
             logging.error(f"Error: File {filename} not found")
             return 0
 
@@ -56,33 +53,12 @@ class Request:
         if self.prepare_request():
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 sock.connect((self.address, self.port))
-                sock.sendall(HTTPreq.to_bytes(self.request))
+                sock.sendall(HTTPRequest.to_bytes(self.request))
                 data = sock.recv(4096)
-                HTTPres.from_bytes(data)
+                HTTPResponse.from_bytes(data)
 
-                print(HTTPres.code)
-                print(HTTPres.body)
-                logging.info(HTTPres.code + "\n" + json.dumps(HTTPres.body))
-
-# HOST = "127.0.0.1"
-# PORT=4010
-# body = json.dumps({
-#    "sender": "admin",
-#   "recipient": "admin",
-#    "message": "message"
-# })
-# with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-#     s.connect((HOST, PORT))
-#     cred = (base64.b64encode("admin:admin".encode())).decode()
-#     # body = "sender=admin&recipient=admin&message=admin\r\n"
-#     mes = "POST /send_sms HTTP/1.1\r\n"
-#     host = "Host: http://127.0.0.1:4010/send_sms\r\n"
-#     content_type = "Content-Type: application/json\r\n"
-#     content_length="Content-Length: " + str(len(body)) + "\r\n"
-#     auth=f"Authorization: Basic {cred}\r\n\r\n"
-#     mes += (host + content_type + content_length + auth + body)
-#     s.sendall(mes.encode())
-#     print(mes.encode())
-#     data = s.recv(1024)
-#     # print(data)
-
+                print(HTTPResponse.code)
+                print(HTTPResponse.body)
+                logging.info(f"Host:{self.address}:{self.port}/{self.point}\nsend:{self.send}\n" +\
+                f"recipient:{self.recip}\nmessage:{self.message}\n" +
+                HTTPResponse.code + "\n" + json.dumps(HTTPResponse.body))
