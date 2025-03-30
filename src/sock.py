@@ -24,7 +24,7 @@ class Request:
             "recipient": self.recip,
             "message": self.message
         }
-        self.body = json.dumps(self.body)
+        # self.body = json.dumps(self.body)
         if self.__get_info_from_toml():
 
             credentials = base64.b64encode(f"{self.login}:{self.passwd}".encode()).decode()
@@ -40,27 +40,28 @@ class Request:
         try:
             with open(filename, "r") as file:
                 data = toml.load(file)
-            try:
-                self.login, self.passwd = data['user']['login'], data['user']['password']
-                server = data['server']
-                self.address = server['address']
-                self.port = server['port']
-                self.point = server['point']
-            except ParseFileError:
-                logging.error("Error: The field(s) don`t parse from file")
-                return 0
         except FileNotFoundError:
             logging.error(f"Error: File {filename} not found")
+            return 0
+        try:
+            self.login, self.passwd = data['user']['login'], data['user']['password']
+            server = data['server']
+            self.address = server['address']
+            self.port = server['port']
+        except Exception:
+            logging.error("Error: The field(s) don`t parse from file")
             return 0
         return 1
 
     def post_request(self) -> None:
         if self.__prepare_request():
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-                HTTPreq = HTTPRequest(self.body, self.address, self.headers)
-                sock.connect((self.address, self.port))
+                HTTPreq = HTTPRequest(self.body, '127.0.0.1', self.headers)
+                address = self.address.split('/')[0]
+                sock.connect((address, self.port))
                 sock.sendall(HTTPreq.to_bytes())
                 data = sock.recv(4096)
+                print(data)
                 HTTPresp = HTTPResponse.from_bytes(data)
 
                 print(HTTPresp.code)
