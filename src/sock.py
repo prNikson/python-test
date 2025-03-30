@@ -4,7 +4,7 @@ import json
 import toml
 from http_handlers import *
 import logging
-
+from exception import ParseFileError
 
 filename = 'spec.toml'
 logging.basicConfig(level=logging.INFO, filename="py_log.log",filemode="a",
@@ -39,15 +39,19 @@ class Request:
         try:
             with open(filename, "r") as file:
                 data = toml.load(file)
-                self.login, self.passwd = data['user']['login'], data['user']['password']
-                server = data['server']
-                self.address = server['address']
-                self.port = server['port']
-                self.point = server['point']
-            return 1
         except FileNotFoundError:
             logging.error(f"Error: File {filename} not found")
             return 0
+        try:
+            self.login, self.passwd = data['user']['login'], data['user']['password']
+            server = data['server']
+            self.address = server['address']
+            self.port = server['port']
+            self.point = server['point']
+        except ParseFileError:
+            logging.error(f"Error: The field(s) don`t parse from file")
+            return 0
+        return 1
 
     def post_request(self) -> None:
         if self.prepare_request():

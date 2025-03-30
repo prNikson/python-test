@@ -5,7 +5,6 @@ title = "Spec file"
 address = "127.0.0.1"
 port = 4010
 
-point = "send_sms"
 
 [user]
 

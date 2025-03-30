@@ -16,3 +16,7 @@ message:go home
 200 OK
 {"status": "success", "message_id": "123456"}
 
+2025-03-30 18:10:22,161
+ERROR
+Error: The field(s) don`t parse from file
+
