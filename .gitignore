@@ -6,7 +6,7 @@ dist/
 wheels/
 *.egg-info
 py_log.log
-
+src/__pycache__/
 # Virtual environments
 .venv
 

@@ -2,7 +2,7 @@ title = "Spec file"
 
 [server]
 
-address = "http://127.0.0.1/send_sms"
+address = "127.0.0.1/send_sms"
 
 port = 4010
 

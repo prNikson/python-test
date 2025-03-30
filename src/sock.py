@@ -24,14 +24,14 @@ class Request:
             "recipient": self.recip,
             "message": self.message
         }
-        # self.body = json.dumps(self.body)
+        self.body = json.dumps(self.body)
         if self.__get_info_from_toml():
 
             credentials = base64.b64encode(f"{self.login}:{self.passwd}".encode()).decode()
             self.headers = {
-                "Content-Type": "application/json\r\n",
-                "Content-Length": f"{str(len(self.body))}\r\n",
-                "Authorization": f"Basic {credentials}\r\n\r\n"
+                "Content-Type": "application/json",
+                "Content-Length": f"{str(len(self.body))}",
+                "Authorization": f"Basic {credentials}"
             }
             return 1
         return 0
@@ -56,12 +56,13 @@ class Request:
     def post_request(self) -> None:
         if self.__prepare_request():
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-                HTTPreq = HTTPRequest(self.body, '127.0.0.1', self.headers)
-                address = self.address.split('/')[0]
+                HTTPreq = HTTPRequest(self.body, self.address, self.headers)
+                address = re.search(r'^(https?:\/\/)?([^\/?:]+)(:\d+)?(\/|$)', self.address)
+                address = address.group(2)
                 sock.connect((address, self.port))
                 sock.sendall(HTTPreq.to_bytes())
                 data = sock.recv(4096)
-                print(data)
+                print(HTTPreq.to_bytes())
                 HTTPresp = HTTPResponse.from_bytes(data)
 
                 print(HTTPresp.code)
