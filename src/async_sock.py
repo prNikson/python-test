@@ -54,7 +54,8 @@ class Request:
 
     async def post_request(self) -> None:
         if await self._prepare_request():
-            address = self.address.split('/')[0]
+            address = re.search(r'^(https?:\/\/)?([^\/?:]+)(:\d+)?(\/|$)', self.address)
+            address = address.group(2)
             reader, writer = await asyncio.open_connection(address, self.port)
             HTTPreq = HTTPRequest(self.body, self.address, self.headers)
             writer.write(HTTPreq.to_bytes())
