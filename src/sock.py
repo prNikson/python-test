@@ -6,6 +6,7 @@ from http_handlers import *
 import logging
 from exception import ParseFileError
 
+
 filename = 'spec.toml'
 logging.basicConfig(level=logging.INFO, filename="py_log.log",filemode="a",
                     format="%(asctime)s\n%(levelname)s\n%(message)s\n")
@@ -17,52 +18,53 @@ class Request:
         self.recip = recip
         self.message = mes
     
-    def prepare_request(self) -> int:
-        body = json.dumps({
+    def __prepare_request(self) -> int:
+        self.body = {
             "sender": self.send,
             "recipient": self.recip,
             "message": self.message
-        })
-        if self.get_info_from_toml():
+        }
+        self.body = json.dumps(self.body)
+        if self.__get_info_from_toml():
 
             credentials = base64.b64encode(f"{self.login}:{self.passwd}".encode()).decode()
-            self.request = f"POST /{self.point} HTTP/1.1\r\n"
-            host = f"Host: {self.address}:{self.port}/{self.point}\r\n"
-            content_type= "Content-Type: application/json\r\n"
-            content_length = f"Content-Length: {str(len(body))}\r\n"
-            auth = f"Authorization: Basic {credentials}\r\n\r\n"
-            self.request += "".join([host, content_type, content_length, auth, body])
+            self.headers = {
+                "Content-Type": "application/json\r\n",
+                "Content-Length": f"{str(len(self.body))}\r\n",
+                "Authorization": f"Basic {credentials}\r\n\r\n"
+            }
             return 1
         return 0
 
-    def get_info_from_toml(self) -> int:
+    def __get_info_from_toml(self) -> int:
         try:
             with open(filename, "r") as file:
                 data = toml.load(file)
+            try:
+                self.login, self.passwd = data['user']['login'], data['user']['password']
+                server = data['server']
+                self.address = server['address']
+                self.port = server['port']
+                self.point = server['point']
+            except ParseFileError:
+                logging.error("Error: The field(s) don`t parse from file")
+                return 0
         except FileNotFoundError:
             logging.error(f"Error: File {filename} not found")
-            return 0
-        try:
-            self.login, self.passwd = data['user']['login'], data['user']['password']
-            server = data['server']
-            self.address = server['address']
-            self.port = server['port']
-            self.point = server['point']
-        except ParseFileError:
-            logging.error(f"Error: The field(s) don`t parse from file")
             return 0
         return 1
 
     def post_request(self) -> None:
-        if self.prepare_request():
+        if self.__prepare_request():
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+                HTTPreq = HTTPRequest(self.body, self.address, self.headers)
                 sock.connect((self.address, self.port))
-                sock.sendall(HTTPRequest.to_bytes(self.request))
+                sock.sendall(HTTPreq.to_bytes())
                 data = sock.recv(4096)
-                HTTPResponse.from_bytes(data)
+                HTTPresp = HTTPResponse.from_bytes(data)
 
-                print(HTTPResponse.code)
-                print(HTTPResponse.body)
-                logging.info(f"Host:{self.address}:{self.port}/{self.point}\nsend:{self.send}\n" +\
+                print(HTTPresp.code)
+                print(HTTPresp.body)
+                logging.info(f"Host:{self.address} Port:{self.port}\nsend:{self.send}\n" +\
                 f"recipient:{self.recip}\nmessage:{self.message}\n" +
-                HTTPResponse.code + "\n" + json.dumps(HTTPResponse.body))
+                HTTPresp.code + "\n" + json.dumps(HTTPresp.body))

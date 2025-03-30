@@ -16,7 +16,48 @@ message:go home
 200 OK
 {"status": "success", "message_id": "123456"}
 
-2025-03-30 18:10:22,161
-ERROR
-Error: The field(s) don`t parse from file
+2025-03-30 12:32:27,934
+INFO
+Host:127.0.0.1:4010/127.0.0.1
+send:1
+recipient:1
+message:1
+404 Not Found
+{"type": "https://stoplight.io/prism/errors#NO_PATH_MATCHED_ERROR", "title": "Route not resolved, no path matched", "status": 404, "detail": "The route /127.0.0.1 hasn't been found in the specification file"}
+
+2025-03-30 12:33:21,298
+INFO
+Host:127.0.0.1:4010/127.0.0.1
+send:1
+recipient:1
+message:1
+404 Not Found
+{"type": "https://stoplight.io/prism/errors#NO_PATH_MATCHED_ERROR", "title": "Route not resolved, no path matched", "status": 404, "detail": "The route /127.0.0.1 hasn't been found in the specification file"}
+
+2025-03-30 12:33:37,828
+INFO
+Host:127.0.0.1:4010/127.0.0.1
+send:1
+recipient:1
+message:1
+404 Not Found
+{"type": "https://stoplight.io/prism/errors#NO_PATH_MATCHED_ERROR", "title": "Route not resolved, no path matched", "status": 404, "detail": "The route /127.0.0.1 hasn't been found in the specification file"}
+
+2025-03-30 12:33:47,250
+INFO
+Host:127.0.0.1:4010/127.0.0.1
+send:1
+recipient:1
+message:1
+404 Not Found
+{"type": "https://stoplight.io/prism/errors#NO_PATH_MATCHED_ERROR", "title": "Route not resolved, no path matched", "status": 404, "detail": "The route /127.0.0.1 hasn't been found in the specification file"}
+
+2025-03-30 12:34:54,665
+INFO
+Host:127.0.0.1 Port:4010
+send:1
+recipient:1
+message:1
+404 Not Found
+{"type": "https://stoplight.io/prism/errors#NO_PATH_MATCHED_ERROR", "title": "Route not resolved, no path matched", "status": 404, "detail": "The route /127.0.0.1 hasn't been found in the specification file"}
 

@@ -5,6 +5,7 @@ build/
 dist/
 wheels/
 *.egg-info
+py_log.log
 
 # Virtual environments
 .venv
