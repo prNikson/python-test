@@ -17,14 +17,14 @@ class Request:
         self.recip = recip
         self.message = mes
     
-    async def _prepare_request(self) -> int:
+    async def __prepare_request(self) -> int:
         self.body = {
             "sender": self.send,
             "recipient": self.recip,
             "message": self.message
         }
         self.body = json.dumps(self.body)
-        if await self._get_info_from_toml():
+        if await self.__get_info_from_toml():
 
             credentials = base64.b64encode(f"{self.login}:{self.passwd}".encode()).decode()
             self.headers = {
@@ -35,7 +35,7 @@ class Request:
             return 1
         return 0
 
-    async def _get_info_from_toml(self) -> int:
+    async def __get_info_from_toml(self) -> int:
         try:
             with open(filename, "r") as file:
                 data = toml.load(file)
@@ -53,7 +53,7 @@ class Request:
         return 1
 
     async def post_request(self) -> None:
-        if await self._prepare_request():
+        if await self.__prepare_request():
             address = re.search(r'^(https?:\/\/)?([^\/?:]+)(:\d+)?(\/|$)', self.address)
             address = address.group(2)
             reader, writer = await asyncio.open_connection(address, self.port)
@@ -61,7 +61,6 @@ class Request:
             writer.write(HTTPreq.to_bytes())
             await writer.drain()
             response = await reader.read(4096)
-            print(response)
             HTTPresp = HTTPResponse.from_bytes(response)
             print(HTTPresp.code, HTTPresp.body)
             writer.close()
