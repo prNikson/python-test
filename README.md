@@ -1,4 +1,4 @@
-# SMS Gateway CLI
+# SMS CLI
 
 CLI HTTP-клиента для отправки sms-сообщений
 
