@@ -62,7 +62,6 @@ class Request:
                 sock.connect((address, self.port))
                 sock.sendall(HTTPreq.to_bytes())
                 data = sock.recv(4096)
-                print(HTTPreq.to_bytes())
                 HTTPresp = HTTPResponse.from_bytes(data)
 
                 print(HTTPresp.code)
