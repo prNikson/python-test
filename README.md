@@ -21,7 +21,8 @@ pip install toml
 ```
 4. Запустите программу
 ```bash
-cd src && python main.py sender recepient message
+cd src
+python main.py sender recepient message
 ```
 В репозитории две ветки:
 1. Клиент, реализованный на socket -> ветка master
