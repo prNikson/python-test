@@ -2,10 +2,9 @@ title = "Spec file"
 
 [server]
 
-address = "127.0.0.1"
-port = 4010
+address = "127.0.0.1/send_sms"
 
-point = "send_sms"
+port = 4010
 
 [user]
 
