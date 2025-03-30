@@ -28,9 +28,9 @@ class Request:
 
             credentials = base64.b64encode(f"{self.login}:{self.passwd}".encode()).decode()
             self.headers = {
-                "Content-Type": "application/json\r\n",
-                "Content-Length": f"{str(len(self.body))}\r\n",
-                "Authorization": f"Basic {credentials}\r\n\r\n"
+                "Content-Type": "application/json",
+                "Content-Length": f"{str(len(self.body))}",
+                "Authorization": f"Basic {credentials}"
             }
             return 1
         return 0
@@ -44,7 +44,6 @@ class Request:
                 server = data['server']
                 self.address = server['address']
                 self.port = server['port']
-                self.point = self.address.split('/')[-1]
             except ParseFileError:
                 logging.error("Error: The field(s) don`t parse from file")
                 return 0
@@ -61,6 +60,7 @@ class Request:
             writer.write(HTTPreq.to_bytes())
             await writer.drain()
             response = await reader.read(4096)
+            print(response)
             HTTPresp = HTTPResponse.from_bytes(response)
             print(HTTPresp.code, HTTPresp.body)
             writer.close()

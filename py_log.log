@@ -6,3 +6,19 @@ message:1
 200 OK
 {"status": "success", "message_id": "123456"}
 
+2025-03-30 21:12:46,588 INFO
+Host:127.0.0.1/send_sms Port: 4010
+send:1
+recipient:1
+message:1
+200 OK
+{"status": "success", "message_id": "123456"}
+
+2025-03-30 21:15:04,585 INFO
+Host:127.0.0.1/send_sms Port: 4010
+send:1
+recipient:1
+message:1
+200 OK
+{"status": "success", "message_id": "123456"}
+
