@@ -40,15 +40,14 @@ class Request:
         try:
             with open(filename, "r") as file:
                 data = toml.load(file)
+                self.login, self.passwd = data['user']['login'], data['user']['password']
+                server = data['server']
+                self.address = server['address']
+                self.port = server['port']
         except FileNotFoundError:
             logging.error(f"Error: File {filename} not found")
             return 0
-        try:
-            self.login, self.passwd = data['user']['login'], data['user']['password']
-            server = data['server']
-            self.address = server['address']
-            self.port = server['port']
-        except Exception:
+        except KeyError:
             logging.error("Error: The field(s) don`t parse from file")
             return 0
         return 1
