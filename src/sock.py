@@ -18,7 +18,7 @@ class Request:
         self.recip = recip
         self.message = mes
     
-    def __prepare_request(self) -> int:
+    def __prepare_request(self) -> bool:
         self.body = {
             "sender": self.send,
             "recipient": self.recip,
@@ -33,10 +33,10 @@ class Request:
                 "Content-Length": f"{str(len(self.body))}",
                 "Authorization": f"Basic {credentials}"
             }
-            return 1
-        return 0
+            return True
+        return False
 
-    def __get_info_from_toml(self) -> int:
+    def __get_info_from_toml(self) -> bool:
         try:
             with open(filename, "r") as file:
                 data = toml.load(file)
@@ -46,11 +46,11 @@ class Request:
                 self.port = server['port']
         except FileNotFoundError:
             logging.error(f"Error: File {filename} not found")
-            return 0
+            return False
         except KeyError:
             logging.error("Error: The field(s) don`t parse from file")
-            return 0
-        return 1
+            return False
+        return True
 
     def post_request(self) -> None:
         if self.__prepare_request():
