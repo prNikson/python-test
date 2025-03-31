@@ -4,7 +4,7 @@ import json
 import toml
 from http_handlers import *
 import logging
-from exception import ParseFileError
+
 
 filename = 'spec.toml'
 logging.basicConfig(level=logging.INFO, filename="py_log.log",filemode="a",
@@ -47,7 +47,7 @@ class Request:
             server = data['server']
             self.address = server['address']
             self.port = server['port']
-        except Exception:
+        except KeyError:
             logging.error("Error: The field(s) don`t parse from file")
             return 0
         return 1
